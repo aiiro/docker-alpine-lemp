@@ -1,0 +1,4 @@
+MARIADB_ROOT_PASSWORD=root_password_0123
+MARIADB_USER=test_user
+MARIADB_PASSWORD=test_password_0123
+MARIADB_DATABASE=sampledatabase

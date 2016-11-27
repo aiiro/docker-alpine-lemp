@@ -1,0 +1,55 @@
+version: '2'
+services:
+  web-data:
+    container_name: web-data
+    image: busybox
+    volumes:
+      - "./src/project/public:/data/www/html/public"
+    tty: true
+
+  web:
+    image: aiiro/alpine-nginx:latest
+    container_name: web
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes_from:
+      - web-data
+    env_file: ./envfiles/web_env
+    environment:
+      - TERM=xterm-256color
+
+  php-data:
+    container_name: php-data
+    image: busybox
+    volumes:
+      - "./src/project:/data/www/html"
+    tty: true
+
+  php-fpm:
+      container_name: php-fpm
+      image: aiiro/alpine-php-fpm:latest
+      volumes_from:
+        - php-data
+
+  db-data:
+    container_name: db-data
+    image: busybox
+    volumes:
+      - "./src/db-data:/var/lib/mysql"
+    tty: true
+
+  db:
+    container_name: db
+    image: bitnami/mariadb:latest
+    ports:
+      - "3306:3306"
+    volumes_from:
+      - db-data
+    env_file: ./envfiles/db_env
+    environment:
+      - TERM=xterm-256color
+
+  memcached:
+    container_name: memcached
+    image: memcached

@@ -1,0 +1,2 @@
+MY_SERVER_NAME=devserver.local
+WITH_PHP_FPM=TRUE
